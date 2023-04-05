@@ -68,5 +68,12 @@ namespace UML2
                 Console.WriteLine(p);
             }
         }
+        public void Search(int pizzaID)
+        {
+            Pizza pizzaToFind = _pizzas.Find(p => p.pizzaID == pizzaID);
+
+            Console.WriteLine(pizzaToFind);
+        }
+
     }
 }

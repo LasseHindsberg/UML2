@@ -88,7 +88,7 @@
                 {
                     Console.WriteLine();
                     Console.WriteLine($"Unable to parse '{input}' - Error Message: {e.Message}");
-                    Console.WriteLine("Input has to be a number. \nPlease enter your choice again (1-5)");
+                    Console.WriteLine("Input has to be a number. \nPlease enter your choice again (1-6)");
                 }
                 return -1;
             }
@@ -101,10 +101,11 @@
             List<string> mainMenulist = new List<string>()
             {
                 "1. Create new pizza",
-                "2. View Pizzas",
-                "3. Update Pizza",
-                "4. Delete Pizza",
-                "5. Exit"
+                "2. Search for a pizza",
+                "3. View Pizzas",
+                "4. Update Pizza",
+                "5. Delete Pizza",
+                "6. Exit"
             };
 
             while (proceed)
@@ -127,14 +128,30 @@
                         Console.Write("Hit any key to continue...");
                         Console.ReadKey();
                         break;
-
                     case 2:
+                        try
+                        {
+
+                            Console.WriteLine("Search for a pizza by entering id");
+                            int pizzaID = int.Parse(Console.ReadLine());
+
+                            _menuCatalog.Search(pizzaID);
+
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine($"No Pizza found.");
+                        }
+                        Console.Write("Hit any key to continue...");
+                        Console.ReadKey();
+                        break;
+                    case 3:
                         _menuCatalog.PrintMenu();
                         Console.WriteLine("Hit any key to continue...");
                         Console.ReadKey();
                         break;
 
-                    case 3:
+                    case 4:
                         try
                         {
                             _menuCatalog.PrintMenu();
@@ -153,7 +170,7 @@
                         Console.ReadKey();
                         break;
 
-                    case 4:
+                    case 5:
                         try
                         {
                             _menuCatalog.PrintMenu();
@@ -172,7 +189,8 @@
                         Console.ReadKey();
                         break;
 
-                    case 5:
+
+                    case 6:
                         proceed = false;
                         Console.WriteLine("Quitting Program...");
                         break;
