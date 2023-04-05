@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UML2
+﻿namespace UML2
 {
     public class UserDialog
     {
@@ -14,7 +7,7 @@ namespace UML2
         {
             _menuCatalog = menuCatalog;
         }
-
+        #region Create
         Pizza GetNewPizza()
         {
             Pizza pizzaItem = new Pizza();
@@ -29,7 +22,7 @@ namespace UML2
             string input = "";
 
             Console.Write("Enter Price: ");
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -46,24 +39,26 @@ namespace UML2
             input = "";
             Console.WriteLine("Enter Pizza ID: ");
 
-            while(true)
+            while (true)
             {
                 try
                 {
                     input = Console.ReadLine();
-                    pizzaItem.pizzaID =Int32.Parse(input);
+                    pizzaItem.pizzaID = Int32.Parse(input);
                     break;
                 }
-                catch (FormatException e) 
+                catch (FormatException e)
                 {
                     Console.WriteLine($"Unable to parse '{input}' - Error Message: {e.Message}");
                     Console.WriteLine("Input has to be a number.\nPlease write ID as a number.");
-                    
+
                 }
             }
 
             return pizzaItem;
         }
+        #endregion
+        #region Menu
         int MainMenuChoice(List<string> menuItems)
         {
             Console.Clear();
@@ -73,51 +68,51 @@ namespace UML2
             Console.WriteLine("--------------------");
             Console.WriteLine();
             Console.WriteLine("Options:");
+            Console.WriteLine("--------------------");
             foreach (string choice in menuItems)
             {
                 Console.WriteLine(choice);
+                Console.WriteLine("--------------------");
             }
             Console.Write("Enter Option#: ");
             string input = Console.ReadKey().KeyChar.ToString();
 
             {
-
                 try
                 {
                     int result = Int32.Parse(input);
                     return result;
                 }
 
-                catch (FormatException)
+                catch (FormatException e)
                 {
-                    Console.WriteLine($"Unable to parse '{input}' - please enter as a number");
+                    Console.WriteLine();
+                    Console.WriteLine($"Unable to parse '{input}' - Error Message: {e.Message}");
+                    Console.WriteLine("Input has to be a number. \nPlease enter your choice again (1-5)");
                 }
                 return -1;
             }
-            
         }
+        #endregion
+        #region Run Function
         public void Run()
         {
             bool proceed = true;
             List<string> mainMenulist = new List<string>()
             {
-                "0. Quit",
                 "1. Create new pizza",
-                "2. Print menu",
-                "3. Some choice"
+                "2. View Pizzas",
+                "3. Update Pizza",
+                "4. Delete Pizza",
+                "5. Exit"
             };
 
-            while(proceed)
+            while (proceed)
             {
                 int MenuChoice = MainMenuChoice(mainMenulist);
                 Console.WriteLine();
                 switch (MenuChoice)
                 {
-                    case 0:
-                        proceed = false;
-                        Console.WriteLine("Quitting Program...");
-                        break;
-
                     case 1:
                         try
                         {
@@ -140,9 +135,46 @@ namespace UML2
                         break;
 
                     case 3:
-                        Console.WriteLine($"You've selected: {mainMenulist[MenuChoice]}");
-                        Console.Write($"Hit any key to continue");
+                        try
+                        {
+                            _menuCatalog.PrintMenu();
+
+                            Console.WriteLine("Enter the ID of the pizza to update:");
+                            int pizzaID = int.Parse(Console.ReadLine());
+
+                            _menuCatalog.Update(pizzaID);
+
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("No Pizza Updated");
+                        }
+                        Console.Write("Hit any key to continue...");
                         Console.ReadKey();
+                        break;
+
+                    case 4:
+                        try
+                        {
+                            _menuCatalog.PrintMenu();
+
+                            Console.WriteLine("Enter the ID of the pizza to Delete:");
+                            int pizzaID = int.Parse(Console.ReadLine());
+
+                            _menuCatalog.Delete(pizzaID);
+
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("No Pizza Deleted.");
+                        }
+                        Console.Write("Hit any key to continue...");
+                        Console.ReadKey();
+                        break;
+
+                    case 5:
+                        proceed = false;
+                        Console.WriteLine("Quitting Program...");
                         break;
 
                     default:
@@ -151,10 +183,9 @@ namespace UML2
                         break;
 
 
-
-
                 }
             }
         }
+        #endregion
     }
 }
