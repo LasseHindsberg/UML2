@@ -1,4 +1,12 @@
-﻿namespace UML2
+﻿/*
+ * @Author: Lasse B. Hindsberg
+ * 
+ * Used Snippets from https://github.com/jpandersen61/UML2
+ * 
+*/
+
+
+namespace UML2
 {
     public class UserDialog
     {
